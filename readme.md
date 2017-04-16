@@ -35,8 +35,11 @@ Using the Udacity provided simulator and my drive.py file, the car can be driven
 ```sh
 python drive.py model.h5  
 ```  
+  
+<video width="320" height="200" controls preload> 
+    <source src="./run23.mp4"></source> 
+</video>
 
-[![Alt text](./examples/example1.jpg)](./run23.mp4)  
   
 My code is fully functional, it makes the simulator car drive the basic track endlessly without intervention.  
 I used the generator as instructed, I only added a resize function from preprocess.py I created.  

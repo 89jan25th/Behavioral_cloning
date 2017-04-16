@@ -15,7 +15,7 @@ The goals / steps of this project are the following:
 [image1]: ./examples/flowchart.png "Flow chart"
 [image2]: ./examples/example0.jpg "Resize example"
 [image3]: ./examples/falling.png "About to fall"
-[image4]: https://devblogs.nvidia.com/parallelforall/wp-content/uploads/2016/08/cnn-architecture-624x890.png =100 "model"
+[image4]: https://devblogs.nvidia.com/parallelforall/wp-content/uploads/2016/08/cnn-architecture-624x890.png =100px "model"
 [image5]: ./examples/placeholder_small.png "Recovery Image"
 [image6]: ./examples/placeholder_small.png "Normal Image"
 [image7]: ./examples/placeholder_small.png "Flipped Image"

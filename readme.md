@@ -1,6 +1,6 @@
 ## **Behavioral Cloning** 
 ---
-** Behavioral Cloning Project**
+**Behavioral Cloning Project**
 
 The goals / steps of this project are the following:
 * Use the simulator to collect data of good driving behavior
@@ -15,7 +15,7 @@ The goals / steps of this project are the following:
 [image1]: ./examples/flowchart.png "Flow chart"
 [image2]: ./examples/example0.jpg "Resize example"
 [image3]: ./examples/falling.png "About to fall"
-[image4]: https://devblogs.nvidia.com/parallelforall/wp-content/uploads/2016/08/cnn-architecture-624x890.png "model"
+[image4]: https://devblogs.nvidia.com/parallelforall/wp-content/uploads/2016/08/cnn-architecture-624x890.png "model" 
 
 ---
 ### Files Submitted & Code Quality
@@ -93,7 +93,7 @@ model.add(Lambda(lambda x: x / 127.5 - 1.0, input_shape = (70, 204, 3)))
 ~~~~
 
 **Dropout was one of the most important factor.** Without this, the car frequently failed to pass the corner.  
-![alt text][image3]  
+![alt text][image3]  <!-- .element height="50%" width="50%" -->
 *About to fall!*  
 
 I did about 20 runs where the car veer off from the corner, and tried different combinations of  

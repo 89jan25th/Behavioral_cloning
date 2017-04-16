@@ -1,11 +1,5 @@
-# **Behavioral Cloning** 
-
-## Writeup Template
-
-### You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
-
+## **Behavioral Cloning** 
 ---
-
 ** Behavioral Cloning Project**
 
 The goals / steps of this project are the following:
@@ -19,15 +13,12 @@ The goals / steps of this project are the following:
 [//]: # (Image References)
 
 [image1]: ./examples/flowchart.png "Flow chart"
-[image2]: ./examples/example.png "Resize example"
+[image2]: ./examples/example0.jpg "Resize example"
 [image3]: ./examples/falling.png "About to fall"
-[image4]: ./examples/placeholder_small.png "Recovery Image"
+[image4]: https://devblogs.nvidia.com/parallelforall/wp-content/uploads/2016/08/cnn-architecture-624x890.png "model"
 [image5]: ./examples/placeholder_small.png "Recovery Image"
 [image6]: ./examples/placeholder_small.png "Normal Image"
 [image7]: ./examples/placeholder_small.png "Flipped Image"
-
-## Rubric Points
-###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
 
 ---
 ### Files Submitted & Code Quality
@@ -47,7 +38,7 @@ Using the Udacity provided simulator and my drive.py file, the car can be driven
 ```sh
 python drive.py model.h5
 ```
-My code is fully functional, it makes the simulator car drive the basic track endlessly without intervention.
+My code is fully functional, it makes the simulator car drive the basic track endlessly without intervention. 
 I used the generator as instructed, I only added a resize function from preprocess.py I created.
 The code is like below.
 	
@@ -81,8 +72,6 @@ I resized the image with open cv's resize function. I crop it to 50~155 in y-axi
 
 #### 3. Submission code is usable and readable
 
-The model.py file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
-
 My model's flow chart is presented below.
 
 ![alt text][image1]
@@ -93,13 +82,13 @@ My model's flow chart is presented below.
 
 #### 1. An appropriate model architecture has been employed
 
-I used nVidia end-to-end CNN model and it works. In order to use the exact same architecture, I had to resize the camera images to 70X204 which is not 66X200(This is what nvidia team used). This is because the pixels are lost every MaxPooling2D(). Thus I did some trial-and-error tasks to find the exact image size.
+I used Nvidia end-to-end CNN model and it works. In order to use the exact same architecture, I had to resize the camera images to 70X204 which is not 66X200(This is what nvidia team used). This is because the pixels are lost every MaxPooling2D(). Thus I did some trial-and-error tasks to find the exact image size.
 
 #### 2. Attempts to reduce overfitting in the model
 
-The model contains dropout layers in order to reduce overfitting (model.py lines 21). 
+I used two dropout layers with factor = 0.5.
 
-The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 10-16). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+
 
 #### 3. Model parameter tuning
 
@@ -130,7 +119,7 @@ model.add(Lambda(lambda x: x / 127.5 - 1.0, input_shape = (70, 204, 3)))
 ~~~~
 
 **Dropout was one of the most important factor.** Without this, the car frequently failed to pass the corner.
-![alt text][image2]
+![alt text][image3]
 I did about 20 runs where the car veer off from the corner, and tried different combinations of
 - training set (log1, log2, log3)
 - multicamera correction factor (0 ~ 1.0)
@@ -140,15 +129,17 @@ Then I finally found my model work when
 
 
 #### 2. Final Model Architecture
+I used Nvidia's architecture 
+![alt text][image4] 
+(source: https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/)
 
 My architecture and pramaters are 
 ____________________________________________________________________________________________________
 Layer (type)                     Output Shape          Param #     Connected to
 ====================================================================================================
 lambda_1 (Lambda)                (None, 70, 204, 3)    0           lambda_input_1[0][0]
-____________________________________________________________________________________________________
 convolution2d_1 (Convolution2D)  (None, 66, 200, 24)   1824        lambda_1[0][0]
-____________________________________________________________________________________________________
+
 maxpooling2d_1 (MaxPooling2D)    (None, 33, 100, 24)   0           convolution2d_1[0][0]
 ____________________________________________________________________________________________________
 activation_1 (Activation)        (None, 33, 100, 24)   0           maxpooling2d_1[0][0]

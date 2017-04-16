@@ -15,7 +15,7 @@ The goals / steps of this project are the following:
 [image1]: ./examples/flowchart.png "Flow chart"
 [image2]: ./examples/example0.jpg "Resize example"
 [image3]: ./examples/falling.png "About to fall"
-[image4]: https://devblogs.nvidia.com/parallelforall/wp-content/uploads/2016/08/cnn-architecture-624x890.png =100px "model"
+[image4]: https://devblogs.nvidia.com/parallelforall/wp-content/uploads/2016/08/cnn-architecture-624x890.png "model"
 [image5]: ./examples/placeholder_small.png "Recovery Image"
 [image6]: ./examples/placeholder_small.png "Normal Image"
 [image7]: ./examples/placeholder_small.png "Flipped Image"
@@ -87,8 +87,8 @@ I used Nvidia end-to-end CNN model and it works. In order to use the exact same 
 
 #### 2. Attempts to reduce overfitting in the model
 
-I used two dropout layers with factor = 0.5.
-
+I used two dropout layers with factor = 0.5. The layer's detailed position is at the below table. (refer to 2. Final Model Architecture)
+I tried 0 ~ 0.5 and two 0.5 layers produced the best result.
 
 
 #### 3. Model parameter tuning

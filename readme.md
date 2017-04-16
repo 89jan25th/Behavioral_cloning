@@ -36,7 +36,8 @@ Using the Udacity provided simulator and my drive.py file, the car can be driven
 python drive.py model.h5  
 ```  
   
-[My code is fully functional](https://youtu.be/DMREgenZhPQ){:target="_blank"}, it makes the simulator car drive the basic track endlessly without intervention.  
+My code is fully functional, it makes the simulator car drive the basic track endlessly without intervention.  
+[video.mp4, youtube link, please open it in a new tab](https://youtu.be/DMREgenZhPQ)  
 I used the generator as instructed, I only added a resize function from preprocess.py I created.  
 The function starts at line 46 in model.py
 

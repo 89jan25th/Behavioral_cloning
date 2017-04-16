@@ -33,8 +33,15 @@ My project has the following files:
 #### 2. Submission includes functional code
 Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
 ```sh
-python drive.py model.h5
-```
+python drive.py model.h5  
+```  
+
+<div class="video_container">
+  <video controls="controls" allowfullscreen="true" poster="./examples/example1.jpg">
+    <source src="./run23.mp4" type="video/mp4">
+  </video> 
+</div>  
+
 My code is fully functional, it makes the simulator car drive the basic track endlessly without intervention.  
 I used the generator as instructed, I only added a resize function from preprocess.py I created.  
 The function starts at line 46 in model.py

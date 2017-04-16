@@ -93,7 +93,7 @@ model.add(Lambda(lambda x: x / 127.5 - 1.0, input_shape = (70, 204, 3)))
 ~~~~
 
 **Dropout was one of the most important factor.** Without this, the car frequently failed to pass the corner.  
-![alt text][image3]  <!-- .element height="50%" width="50%" -->
+![alt text][image3]  
 *About to fall!*  
 
 I did about 20 runs where the car veer off from the corner, and tried different combinations of  
@@ -107,7 +107,7 @@ Then I finally found my model work when
 
 #### 2. Final Model Architecture
 I used Nvidia's architecture  
-![alt text][image4]  
+![alt text][image4]  <!-- .element height="50%" width="50%" -->
 *source: https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/*
 
 My architecture and pramaters are  

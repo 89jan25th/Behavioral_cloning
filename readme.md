@@ -98,7 +98,8 @@ model.add(Lambda(lambda x: x / 127.5 - 1.0, input_shape = (70, 204, 3)))
 I did about 20 runs where the car veer off from the corner, and tried different combinations of  
 - training set (log1, log2, log3)
 - multicamera correction factor (0 ~ 1.0)
-- Dropout (0 ~ 0.5) 
+- Dropout (0 ~ 0.5)   
+
 Then I finally found my model work when  
 - log 1 + log 3 + no multicamera correction + two dropout layers (0.5)
 

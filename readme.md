@@ -16,9 +16,6 @@ The goals / steps of this project are the following:
 [image2]: ./examples/example0.jpg "Resize example"
 [image3]: ./examples/falling.png "About to fall"
 [image4]: https://devblogs.nvidia.com/parallelforall/wp-content/uploads/2016/08/cnn-architecture-624x890.png "model"
-[image5]: ./examples/placeholder_small.png "Recovery Image"
-[image6]: ./examples/placeholder_small.png "Normal Image"
-[image7]: ./examples/placeholder_small.png "Flipped Image"
 
 ---
 ### Files Submitted & Code Quality
@@ -29,8 +26,8 @@ My project has following files:
 * model.py containing the script to create and train the model
 * drive.py for driving the car in autonomous mode -- mostly the same from the given package and I just added the resize feature.
 * model.h5 containing a trained convolution neural network
-* writeup_report.md
-* vidoe.mp4 is the result clip of my final model with my final dataset
+* readme.md
+* vidoe.mp4 is the result clip from my final codes
 * preprocess.py for resizing loaded images
 
 #### 2. Submission includes functional code
@@ -59,50 +56,50 @@ My model's flow chart is presented below.
 
 #### 1. An appropriate model architecture has been employed
 
-I used Nvidia end-to-end CNN model and it works. In order to use the exact same architecture, I had to resize the camera images to 70X204 which is not 66X200(This is what nvidia team used). This is because the pixels are lost every MaxPooling2D(). Thus I did some trial-and-error tasks to find the exact image size.
+I used Nvidia end-to-end CNN model and it works. In order to use the exact same architecture, I had to resize the camera images to 70 x 204 which is not 66 x 200(This is what nvidia team used). It was because MaxPooling2D() loses a pixel from width or height if they are an odd number. Thus I did some trial-and-error tasks to find the exact image size.
 
 #### 2. Attempts to reduce overfitting in the model
 
 I used two dropout layers with factor = 0.5. The layer's detailed position is at the below table. (refer to 2. Final Model Architecture)
-I tried 0 ~ 0.5 and two 0.5 layers produced the best result.
+I tried 0 ~ 0.5, and two 0.5 layers produced the best result.
 
 
 #### 3. Model parameter tuning
 
-I used adam optimiser.
-Batch size was set to 64 after trying 32, 64, and 128(the results are not different much betweent them.)
+I used adam optimiser.  
+Batch size was set to 64 after trying 32, 64, and 128(the results are not different much between them.)
 
 #### 4. Appropriate training data
 
-I made three training set (driving_log.csv, driving_log2.csv, and driving_log3.csv)
-driving_log.csv : 2 laps clockwise, 2 laps counter-clockwise, midium quality of driving.
-driving_log2.csv : 1 lap clockwise, 1 lap counter-clockwise, poor quality of driving. (stay in track though)
-driving_log3.csv : 2 laps clockwise, 2 lap counter-clockwise + additional cornering samples, good quality of driving.
+I made three training set (driving_log.csv, driving_log2.csv, and driving_log3.csv)  
+- driving_log.csv : 2 laps clockwise, 2 laps counter-clockwise, midium quality of driving.
+- driving_log2.csv : 1 lap clockwise, 1 lap counter-clockwise, poor quality of driving. (stay in track though)
+- driving_log3.csv : 2 laps clockwise, 2 lap counter-clockwise + additional cornering samples, good quality of driving.
 
-I made dataset with different quality of driving to see what makes good dataset.
-After 23 runs, I concluded that the poor quality set doesn't help at all. it was just garbage in garbage out.
-Also I found because it is 'behavioral cloning,' the most important is to make a GOOD training set to clone. 
+I made dataset with different quality of driving to see what makes good dataset.  
+After 23 runs, I concluded that the poor quality set doesn't help at all. it was just garbage in garbage out.  
+Also I found because it is 'behavioral cloning,' the most important is to make a GOOD training set to clone.  
 I only used log and log3 for my report.
 
 ### Model Architecture and Training Strategy
 
 #### 1. Solution Design Approach
 
-The overall architecture is the same as NVIDIA's. I wanted to implement NVIDIA's architecture.
-
-The data is normalized with keras Lambda layer. 
+The overall architecture is the same as NVIDIA's. I wanted to implement NVIDIA's architecture.  
+  
+The data is normalized with keras Lambda layer.  
 ~~~~
 model.add(Lambda(lambda x: x / 127.5 - 1.0, input_shape = (70, 204, 3)))
 ~~~~
 
-**Dropout was one of the most important factor.** Without this, the car frequently failed to pass the corner.
-![alt text][image3] 
+**Dropout was one of the most important factor.** Without this, the car frequently failed to pass the corner.  
+![alt text][image3]  
 * About to fall!
-I did about 20 runs where the car veer off from the corner, and tried different combinations of
+I did about 20 runs where the car veer off from the corner, and tried different combinations of  
 - training set (log1, log2, log3)
 - multicamera correction factor (0 ~ 1.0)
 - Dropout (0 ~ 0.5) 
-Then I finally found my model work when
+Then I finally found my model work when  
 - log 1 + log 3 + no multicamera correction + two dropout layers (0.5)
 
 
@@ -111,7 +108,7 @@ I used Nvidia's architecture
 ![alt text][image4]  
 (source: https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/)
 
-My architecture and pramaters are 
+My architecture and pramaters are  
 
 | Layer (type)                     | Output Shape         | Param #    | Connected to |
 |:---------------------:|:---------------------:|:-------------:|:-----------:| 
@@ -137,40 +134,26 @@ My architecture and pramaters are
 | dense_4 (Dense)                  | (None, 10)           | 510        | dense_3[0][0] |
 | dense_5 (Dense)                  | (None, 1)            | 11         | dense_4[0][0] |
 
-Total params: 1,595,511
-Trainable params: 1,595,511
-Non-trainable params: 0
+Total params: 1,595,511  
+Trainable params: 1,595,511  
+Non-trainable params: 0  
 
 
 #### 3. Creation of the Training Set & Training Process
 
+Most of the points are already made above, but I'd like to make a summary.
 
+To create good behavior to clone, I tried to...  
+- drive the center lane.
+- drive slightly off from the center but towards the inside just before the corner to take a smooth turn.
+- make equivalent laps for each direction.
+- make at least 20k images (I used 22,769 samples for training.)
+  
+To create a good training set, I tried to...
+- collect three different qualities of driving, poor, normal, and good.
+- augment flipped images, and it works as a significant factor.
+- normalize images.
 
-
-
-
-To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
-
-
-
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
-
-![alt text][image3]
-![alt text][image4]
-![alt text][image5]
-
-Then I repeated this process on track two in order to get more data points.
-
-To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
-
-![alt text][image6]
-![alt text][image7]
-
-Etc ....
-
-After the collection process, I had X number of data points. I then preprocessed this data by ...
-
-
-I finally randomly shuffled the data set and put Y% of the data into a validation set. 
-
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
+To create a good trainig process, I tried...
+- to run with or without multi camera correction assist and different factors. To my case the multi camera isn't so helpful.
+- to run with or without dropout and different factors. To my case I found two layers with 0.5 factor is good enough to avoid overfitting.

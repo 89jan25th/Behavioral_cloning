@@ -107,7 +107,7 @@ Then I finally found my model work when
 
 #### 2. Final Model Architecture
 I used Nvidia's architecture  
-![alt text][image4]  <!-- .element height="50%" width="50%" -->
+![alt text][image4]  
 *source: https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/*
 
 My architecture and pramaters are  

@@ -38,37 +38,13 @@ Using the Udacity provided simulator and my drive.py file, the car can be driven
 ```sh
 python drive.py model.h5
 ```
-My code is fully functional, it makes the simulator car drive the basic track endlessly without intervention. 
-I used the generator as instructed, I only added a resize function from preprocess.py I created.
-The code is like below.
-	
-~~~~
-# generator function
-batch_size = 64
-def generator(samples, batch_size):
-    num_samples = len(samples)
-    while 1: # Loop forever so the generator never terminates
-        shuffle(samples)
-        for offset in range(0, num_samples, batch_size):
-            batch_samples = samples[offset:offset+batch_size]
-            images = []
-            angles = []
-            for batch_sample in batch_samples:
-                name = './data/IMG/'+batch_sample[0].split('\\')[-1]
-                image = cv2.imread(name)           
-                resize = preprocess(image)
-                angle = float(batch_sample[3])
-                images.append(resize)
-                angles.append(angle)
-                images.append(cv2.flip(resize,1))
-                angles.append(angle * -1.0)           
-            X_train = np.array(images)
-            y_train = np.array(angles)
-            yield shuffle(X_train, y_train)	
-~~~~
+My code is fully functional, it makes the simulator car drive the basic track endlessly without intervention.  
+I used the generator as instructed, I only added a resize function from preprocess.py I created.  
+The function starts at line 46 in model.py
 
-I resized the image with open cv's resize function. I crop it to 50~155 in y-axis ad didn't touch x-axis.
-![alt text][image2] 
+I resized the image with open cv's resize function. I crop it to 50~155 in y-axis ad didn't touch x-axis.  
+The code is in preprocess.py  
+![alt text][image2]  
 *Cropped and resized image)
 
 #### 3. Submission code is usable and readable

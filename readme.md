@@ -133,28 +133,9 @@ Then I finally found my model work when
 #### 2. Final Model Architecture
 I used Nvidia's architecture 
 ![alt text][image4] 
-(source: https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/)
+(source: https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/ =200)
 
 My architecture and pramaters are 
-| Layer         		|     Description	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Input         		| 32x32x1 gray image   							| 
-| Convolution 1x1     	| 1x1 stride, valid padding, outputs 32x32x32 |
-| RELU					|												|
-| Convolution 5x5					|	1x1 stride, valid padding, outputs 28x28x32 |
-| Max pooling	      	| 2x2 stride,  outputs 14x14x32 				|
-| Convolution 5x5	    | 1x1 stride, valid padding, outputs 10x10x64 |
-| RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 5x5x64 				|
-| Dropout					|		keep_prob = 0.5										|
-| Fully connected		| input 1600  output 400		|
-| RELU					|												|
-| Dropout					|		keep_prob = 0.5										|
-| Fully connected		| input 400  output 84		|
-| RELU					|												|
-| Fully connected		| input 84  output 43		|				
-| Softmax | 	|			
-
 
 | Layer (type)                     | Output Shape         | Param #    | Connected to |
 |:---------------------:|:---------------------:|:-------------:|:-----------:| 
@@ -186,6 +167,7 @@ Non-trainable params: 0
 
 
 #### 3. Creation of the Training Set & Training Process
+
 
 
 

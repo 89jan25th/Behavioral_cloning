@@ -68,13 +68,14 @@ def generator(samples, batch_size):
 ~~~~
 
 I resized the image with open cv's resize function. I crop it to 50~155 in y-axis ad didn't touch x-axis.
-![alt text][image2]
+![alt text][image2] 
+*Cropped and resized image)
 
 #### 3. Submission code is usable and readable
 
-My model's flow chart is presented below.
+My model's flow chart is presented below. 
 
-![alt text][image1]
+![alt text][image1] 
 
 
 
@@ -119,13 +120,14 @@ model.add(Lambda(lambda x: x / 127.5 - 1.0, input_shape = (70, 204, 3)))
 ~~~~
 
 **Dropout was one of the most important factor.** Without this, the car frequently failed to pass the corner.
-![alt text][image3]
+![alt text][image3] 
+* About to fall!
 I did about 20 runs where the car veer off from the corner, and tried different combinations of
 - training set (log1, log2, log3)
 - multicamera correction factor (0 ~ 1.0)
-- Dropout (0 ~ 0.5)
+- Dropout (0 ~ 0.5) 
 Then I finally found my model work when
-> log 1 + log 3 + no multicamera correction + two dropout layers (0.5)
+- log 1 + log 3 + no multicamera correction + two dropout layers (0.5)
 
 
 #### 2. Final Model Architecture
@@ -134,49 +136,70 @@ I used Nvidia's architecture
 (source: https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/)
 
 My architecture and pramaters are 
-____________________________________________________________________________________________________
-Layer (type)                     Output Shape          Param #     Connected to
-====================================================================================================
-lambda_1 (Lambda)                (None, 70, 204, 3)    0           lambda_input_1[0][0]
-convolution2d_1 (Convolution2D)  (None, 66, 200, 24)   1824        lambda_1[0][0]
+| Layer         		|     Description	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| Input         		| 32x32x1 gray image   							| 
+| Convolution 1x1     	| 1x1 stride, valid padding, outputs 32x32x32 |
+| RELU					|												|
+| Convolution 5x5					|	1x1 stride, valid padding, outputs 28x28x32 |
+| Max pooling	      	| 2x2 stride,  outputs 14x14x32 				|
+| Convolution 5x5	    | 1x1 stride, valid padding, outputs 10x10x64 |
+| RELU					|												|
+| Max pooling	      	| 2x2 stride,  outputs 5x5x64 				|
+| Dropout					|		keep_prob = 0.5										|
+| Fully connected		| input 1600  output 400		|
+| RELU					|												|
+| Dropout					|		keep_prob = 0.5										|
+| Fully connected		| input 400  output 84		|
+| RELU					|												|
+| Fully connected		| input 84  output 43		|				
+| Softmax | 	|			
 
-maxpooling2d_1 (MaxPooling2D)    (None, 33, 100, 24)   0           convolution2d_1[0][0]
+
 ____________________________________________________________________________________________________
-activation_1 (Activation)        (None, 33, 100, 24)   0           maxpooling2d_1[0][0]
+Layer (type)                     |Output Shape          Param #     Connected to
+====================================================================================================
+lambda_1 (Lambda)                |(None, 70, 204, 3)    0           lambda_input_1[0][0]
 ____________________________________________________________________________________________________
-convolution2d_2 (Convolution2D)  (None, 29, 96, 36)    21636       activation_1[0][0]
+convolution2d_1 (Convolution2D)  |(None, 66, 200, 24)   1824        lambda_1[0][0]
 ____________________________________________________________________________________________________
-maxpooling2d_2 (MaxPooling2D)    (None, 14, 48, 36)    0           convolution2d_2[0][0]
+maxpooling2d_1 (MaxPooling2D)    |(None, 33, 100, 24)   0           convolution2d_1[0][0]
 ____________________________________________________________________________________________________
-activation_2 (Activation)        (None, 14, 48, 36)    0           maxpooling2d_2[0][0]
+activation_1 (Activation)        |(None, 33, 100, 24)   0           maxpooling2d_1[0][0]
 ____________________________________________________________________________________________________
-convolution2d_3 (Convolution2D)  (None, 10, 44, 48)    43248       activation_2[0][0]
+convolution2d_2 (Convolution2D)  |(None, 29, 96, 36)    21636       activation_1[0][0]
 ____________________________________________________________________________________________________
-maxpooling2d_3 (MaxPooling2D)    (None, 5, 22, 48)     0           convolution2d_3[0][0]
+maxpooling2d_2 (MaxPooling2D)    |(None, 14, 48, 36)    0           convolution2d_2[0][0]
 ____________________________________________________________________________________________________
-activation_3 (Activation)        (None, 5, 22, 48)     0           maxpooling2d_3[0][0]
+activation_2 (Activation)        |(None, 14, 48, 36)    0           maxpooling2d_2[0][0]
 ____________________________________________________________________________________________________
-convolution2d_4 (Convolution2D)  (None, 3, 20, 64)     27712       activation_3[0][0]
+convolution2d_3 (Convolution2D)  |(None, 10, 44, 48)    43248       activation_2[0][0]
 ____________________________________________________________________________________________________
-activation_4 (Activation)        (None, 3, 20, 64)     0           convolution2d_4[0][0]
+maxpooling2d_3 (MaxPooling2D)    |(None, 5, 22, 48)     0           convolution2d_3[0][0]
 ____________________________________________________________________________________________________
-convolution2d_5 (Convolution2D)  (None, 1, 18, 64)     36928       activation_4[0][0]
+activation_3 (Activation)        |(None, 5, 22, 48)     0           maxpooling2d_3[0][0]
 ____________________________________________________________________________________________________
-activation_5 (Activation)        (None, 1, 18, 64)     0           convolution2d_5[0][0]
+convolution2d_4 (Convolution2D)  |(None, 3, 20, 64)     27712       activation_3[0][0]
 ____________________________________________________________________________________________________
-dropout_1 (Dropout)              (None, 1, 18, 64)     0           activation_5[0][0]
+activation_4 (Activation)        |(None, 3, 20, 64)     0           convolution2d_4[0][0]
 ____________________________________________________________________________________________________
-flatten_1 (Flatten)              (None, 1152)          0           dropout_1[0][0]
+convolution2d_5 (Convolution2D)  |(None, 1, 18, 64)     36928       activation_4[0][0]
 ____________________________________________________________________________________________________
-dense_1 (Dense)                  (None, 1164)          1342092     flatten_1[0][0]
+activation_5 (Activation)        |(None, 1, 18, 64)     0           convolution2d_5[0][0]
 ____________________________________________________________________________________________________
-dense_2 (Dense)                  (None, 100)           116500      dense_1[0][0]
+dropout_1 (Dropout)              |(None, 1, 18, 64)     0           activation_5[0][0]
 ____________________________________________________________________________________________________
-dense_3 (Dense)                  (None, 50)            5050        dense_2[0][0]
+flatten_1 (Flatten)              |(None, 1152)          0           dropout_1[0][0]
 ____________________________________________________________________________________________________
-dense_4 (Dense)                  (None, 10)            510         dense_3[0][0]
+dense_1 (Dense)                  |(None, 1164)          1342092     flatten_1[0][0]
 ____________________________________________________________________________________________________
-dense_5 (Dense)                  (None, 1)             11          dense_4[0][0]
+dense_2 (Dense)                  |(None, 100)           116500      dense_1[0][0]
+____________________________________________________________________________________________________
+dense_3 (Dense)                  |(None, 50)            5050        dense_2[0][0]
+____________________________________________________________________________________________________
+dense_4 (Dense)                  |(None, 10)            510         dense_3[0][0]
+____________________________________________________________________________________________________
+dense_5 (Dense)                  |(None, 1)             11          dense_4[0][0]
 ====================================================================================================
 Total params: 1,595,511
 Trainable params: 1,595,511

@@ -22,7 +22,7 @@ The goals / steps of this project are the following:
 
 #### 1. Submission includes all required files and can be used to run the simulator in autonomous mode
 
-My project has following files:
+My project has the following files:
 * model.py containing the script to create and train the model
 * drive.py for driving the car in autonomous mode -- mostly the same from the given package and I just added the resize feature.
 * model.h5 containing a trained convolution neural network
@@ -42,7 +42,7 @@ The function starts at line 46 in model.py
 I resized the image with open cv's resize function. I crop it to 50~155 in y-axis ad didn't touch x-axis.  
 The code is in preprocess.py  
 ![alt text][image2]  
-*Cropped and resized image)
+* Cropped and resized image
 
 #### 3. Submission code is usable and readable
 
@@ -66,7 +66,7 @@ I tried 0 ~ 0.5, and two 0.5 layers produced the best result.
 
 #### 3. Model parameter tuning
 
-I used adam optimiser.  
+I used the adam optimiser.  
 Batch size was set to 64 after trying 32, 64, and 128(the results are not different much between them.)
 
 #### 4. Appropriate training data
@@ -94,7 +94,7 @@ model.add(Lambda(lambda x: x / 127.5 - 1.0, input_shape = (70, 204, 3)))
 
 **Dropout was one of the most important factor.** Without this, the car frequently failed to pass the corner.  
 ![alt text][image3]  
-* About to fall!
+* About to fall!  
 I did about 20 runs where the car veer off from the corner, and tried different combinations of  
 - training set (log1, log2, log3)
 - multicamera correction factor (0 ~ 1.0)

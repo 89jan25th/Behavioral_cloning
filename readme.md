@@ -95,6 +95,7 @@ model.add(Lambda(lambda x: x / 127.5 - 1.0, input_shape = (70, 204, 3)))
 **Dropout was one of the most important factor.** Without this, the car frequently failed to pass the corner.  
 ![alt text][image3]  
 *About to fall!*  
+
 I did about 20 runs where the car veer off from the corner, and tried different combinations of  
 - training set (log1, log2, log3)
 - multicamera correction factor (0 ~ 1.0)
